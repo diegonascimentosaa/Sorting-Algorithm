@@ -1,62 +1,60 @@
 #include <iostream>
 using namespace std;
+void mostrar(int vet[], int tam)
+{
+    int i=0;
+    while(i < tam)
+    {
+        cout << vet[i] << " , ";
+    i++;
+    }
+}
+
+int particao(int vet[], int esq, int dir)
+{
+    int aux;
+    int j = esq;
+    int pivo = vet[dir];
+    int i = (esq - 1);
+    while(j < dir)
+    {
+
+        if (vet[j] <= pivo)
+        {
+            i++;
+            aux = vet [j];
+            vet [j] = vet [i];
+            vet [i] = aux;
+        }
+        j++;
+    }
+    i++;
+    aux = vet [dir];
+    vet [dir] = vet [i];
+    vet [i] = aux;
+    return i;
+}
 
 void quickSort(int vet[], int esq, int dir)
 {
-    int inicio, meio, fim, pivo, aux;
-    inicio=esq;
-    fim=dir;
-    meio=(esq+dir)/2;
-    pivo=vet[meio];
-    while(inicio<fim)
+    if (esq < dir)
     {
-        while (vet[inicio]<pivo)
-        {
-            inicio++;
-        }
-        while(vet[fim]>pivo)
-        {
-            fim--;
-        }
-        if (inicio<fim)
-        {
-            aux=vet[inicio];
-            vet[inicio]=vet[fim];
-            vet[fim]=aux;
-        }
-        inicio++;
-        fim--;
-    }
-    if(fim>esq)
-    {
-        quickSort(vet,esq,fim);
-    }
-    if(inicio<dir)
-    {
-        quickSort(vet,inicio+1,dir);
+        int pivo = particao(vet, esq, dir);
+        quickSort(vet, esq, pivo - 1);
+        quickSort(vet, pivo + 1, dir);
     }
 }
-
-void mostrar(int vet[], int tam)
-{
-    int i;
-    for (i = 0; i < tam; i++)
-    {
-        cout << vet[i] << " , ";
-    }
-}
-
 int main()
 {
-    int vet[] = { 9 , 10 , -1, 3, 6, 2, 1, -3, 1, 0, -2, 15, 8, -7, 0 };
+    int vet[] = { 9, 10, -1, 3, 6, 2, 1, -3, 1, 0, -2, 15, 8, -7, 0 };
     int tam;
-    
+
     tam  = sizeof(vet) / sizeof(vet[0]);
-        cout << "O vetor original e: ";
+    cout << "O vet original e: ";
     mostrar(vet, tam);
-        cout << endl;
+    cout << endl;
     quickSort(vet, 0, tam);
-        cout << "O vetor ordenado e: ";
+    cout << "O vet ordenado e: ";
     mostrar(vet, tam);
-        cout << endl;
+    cout << endl;
 }
